@@ -28,6 +28,7 @@ class RelatedIssuesExportPlugin extends MantisPlugin {
 
         $this->author = "Robert Munteanu";
         $this->contact = "robert@lmn.ro";
+        $this->url ="http://www.mantisbt.org/wiki/doku.php/mantisbt:relatedissuesexport";
     }
     
     public function hooks() {
