@@ -32,12 +32,12 @@
 	    $t_latest_bugnote_arr = bugnote_get_all_visible_bugnotes( $p_child_bug_id, 'DESC', 1);
 	    $t_latest_bugnote = count ( $t_latest_bugnote_arr ) == 1 ? $t_latest_bugnote_arr[0]->note : "";
 	    
-	    echo excel_get_cell ( relationship_get_description_src_side ( $p_relationship_type ), 'String' );
+	    echo excel_get_cell ( excel_prepare_string ( relationship_get_description_src_side ( $p_relationship_type ) ), 'String' );
 	    echo excel_format_id ( $p_child_bug_id );
 	    echo excel_format_project_id( $t_bug->project_id );
-	    echo excel_get_cell( get_enum_element( 'status', $t_bug->status), 'String');
-	    echo excel_get_cell( $t_bug->handler_id > 0 ? user_get_name( $t_bug->handler_id  ) : '', 'String');
-	    echo excel_get_cell( $t_latest_bugnote, 'String');
+	    echo excel_get_cell( excel_prepare_string( get_enum_element( 'status', $t_bug->status) ), 'String');
+	    echo excel_get_cell( $t_bug->handler_id > 0 ? excel_prepare_string( user_get_name( $t_bug->handler_id  ) ) : '', 'String');
+	    echo excel_get_cell( excel_prepare_string( $t_latest_bugnote ), 'String');
 	}
 	
 	auth_ensure_user_authenticated();
@@ -80,7 +80,7 @@
 	echo excel_get_header( $t_export_title , $t_styles );
 
 	echo excel_get_start_row( $t_header_style->getId() );
-	echo excel_get_cell( plugin_lang_get('source_item_id') , 'String');
+	echo excel_get_cell( excel_prepare_string( plugin_lang_get('source_item_id') ), 'String');
 	echo excel_get_cell( column_get_title('status') , 'String');
 	echo excel_get_cell( column_get_title('handler_id') , 'String');
 	echo excel_get_cell( plugin_lang_get('last_note') , 'String');
@@ -122,9 +122,9 @@
 				
 				echo excel_get_start_row( $t_style_id );
 				echo excel_get_cell( $t_row->id, 'Numeric', $t_merge_attr );
-				echo excel_get_cell( get_enum_element( 'status', $t_row->status), 'String', $t_merge_attr );
-				echo excel_get_cell( $t_row->handler_id > 0 ? user_get_name( $t_row->handler_id ) : '', 'String', $t_merge_attr);
-				echo excel_get_cell( $t_latest_bugnote, 'String', $t_merge_attr);
+				echo excel_get_cell( excel_prepare_string( get_enum_element( 'status', $t_row->status) ), 'String', $t_merge_attr );
+				echo excel_get_cell( $t_row->handler_id > 0 ? excel_prepare_string( user_get_name( $t_row->handler_id ) ) : '', 'String', $t_merge_attr);
+				echo excel_get_cell( excel_prepare_string( $t_latest_bugnote ), 'String', $t_merge_attr);
 				
 				RIE_echo_child_cells( $t_first_relationship->dest_bug_id, $t_first_relationship->type );
 
