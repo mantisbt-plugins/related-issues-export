@@ -121,7 +121,7 @@
 				$t_first_relationship = array_pop( $t_bug_relationships );
 				
 				echo excel_get_start_row( $t_style_id );
-				echo excel_get_cell( $t_row->id, 'Numeric', $t_merge_attr );
+				echo excel_get_cell( $t_row->id, 'Number', $t_merge_attr );
 				echo excel_get_cell( excel_prepare_string( get_enum_element( 'status', $t_row->status) ), 'String', $t_merge_attr );
 				echo excel_get_cell( $t_row->handler_id > 0 ? excel_prepare_string( user_get_name( $t_row->handler_id ) ) : '', 'String', $t_merge_attr);
 				echo excel_get_cell( excel_prepare_string( $t_latest_bugnote ), 'String', $t_merge_attr);
@@ -135,7 +135,7 @@
 				    $t_style_id = $row_number % 2 == 1 ? $t_alt_background_style->getId() : $t_cell_style->getId();
 				    echo excel_get_start_row( $t_style_id );
 				    for ( $k = 0 ; $k < 4 ; $k++ ) {
-				        echo excel_get_cell('', 'Numeric');
+				        echo excel_get_cell('', 'Number');
 				    }
 				    RIE_echo_child_cells( $t_bug_relationship->dest_bug_id, $t_bug_relationship->type );
 				    echo excel_get_end_row();
