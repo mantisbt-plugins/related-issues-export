@@ -52,10 +52,12 @@
 	$t_cell_style = new ExcelStyle('Default_Row');
 	$t_cell_style->setBorder('#000000');
 	
-	$t_header_style = new ExcelStyle('Header_Row', $t_cell_style->getId());
+	$t_header_style = new ExcelStyle('Header_Row');
+	$t_header_style->setBorder('#000000');
 	$t_header_style->setFont(1);
 	
-	$t_alt_background_style = new ExcelStyle('Alternate_Row', $t_cell_style->getId());
+	$t_alt_background_style = new ExcelStyle('Alternate_Row');
+	$t_alt_background_style ->setBorder('#000000');
 	$t_alt_background_style->setBackgroundColor('#C1C1C1');
 	
 	$t_styles = array( $t_cell_style, $t_alt_background_style, $t_header_style );
