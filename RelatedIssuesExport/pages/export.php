@@ -26,11 +26,12 @@
 
 	require( 'print_all_bug_options_inc.php' );
 
-	function RIE_echo_child_cells( $p_child_bug_id , $p_relationship_type ) {
+	function RIE_echo_child_cells( $p_child_bug_id , $p_relationship_type) {
 
 	    $t_bug = bug_get( $p_child_bug_id );
 	    $t_latest_bugnote_arr = bugnote_get_all_visible_bugnotes( $p_child_bug_id, 'DESC', 1);
 	    $t_latest_bugnote = count ( $t_latest_bugnote_arr ) == 1 ? $t_latest_bugnote_arr[0]->note : "";
+	    $t_latest_bugnote = str_replace( "\r\n", "\n", $t_latest_bugnote );
 
 	    // set ss:Index = 4 to ensure that the correct column is selected
 	    // not required for the first row, but for the rest
@@ -51,16 +52,18 @@
 	# configure styles
 	$t_cell_style = new ExcelStyle('Default_Row');
 	$t_cell_style->setBorder('#000000');
+	$t_cell_style->setAlignment(1, '', 'Top');
 	
 	$t_header_style = new ExcelStyle('Header_Row');
 	$t_header_style->setBorder('#000000');
 	$t_header_style->setFont(1);
 	
 	$t_alt_background_style = new ExcelStyle('Alternate_Row');
-	$t_alt_background_style ->setBorder('#000000');
+	$t_alt_background_style->setBorder('#000000');
 	$t_alt_background_style->setBackgroundColor('#C1C1C1');
+	$t_alt_background_style->setAlignment(1, '', 'Top');
 	
-	$t_styles = array( $t_cell_style, $t_alt_background_style, $t_header_style );
+	$t_styles = array( $t_cell_style, $t_alt_background_style, $t_header_style);
 
 	$t_export_title = excel_get_default_filename();
 
@@ -130,7 +133,7 @@
 				echo excel_get_cell( $t_row->handler_id > 0 ? excel_prepare_string( user_get_name( $t_row->handler_id ) ) : '', 'String', $t_merge_attr);
 				echo excel_get_cell( excel_prepare_string( $t_latest_bugnote ), 'String', $t_merge_attr);
 				
-				RIE_echo_child_cells( $t_first_relationship->dest_bug_id, $t_first_relationship->type );
+				RIE_echo_child_cells( $t_first_relationship->dest_bug_id, $t_first_relationship->type);
 
 				echo excel_get_end_row();
 				$row_number++;
@@ -138,7 +141,7 @@
 				foreach ( $t_bug_relationships as $t_bug_relationship ) {
 				    $t_style_id = $row_number % 2 == 1 ? $t_alt_background_style->getId() : $t_cell_style->getId();
 				    echo excel_get_start_row( $t_style_id );
-				    RIE_echo_child_cells( $t_bug_relationship->dest_bug_id, $t_bug_relationship->type );
+				    RIE_echo_child_cells( $t_bug_relationship->dest_bug_id, $t_bug_relationship->type);
 				    echo excel_get_end_row();
 				    $row_number++;
 				}
