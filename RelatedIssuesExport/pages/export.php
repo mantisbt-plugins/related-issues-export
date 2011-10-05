@@ -45,6 +45,9 @@
 	
 	auth_ensure_user_authenticated();
 
+	$t_required_level = plugin_config_get('export_access_level_threshold');
+	access_ensure_project_level( $t_required_level );
+	
 	$f_export = gpc_get_string( 'export', '' );
 
 	helper_begin_long_process();

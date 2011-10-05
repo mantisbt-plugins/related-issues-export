@@ -40,6 +40,11 @@ class RelatedIssuesExportPlugin extends MantisPlugin {
     
     public function add_related_issues_export_link() {
         
+        $t_required_level = plugin_config_get('export_access_level_threshold');
+        
+        if ( ! access_has_project_level( $t_required_level ) )
+            return;
+        
         // TODO: remove OB once we have echo_link in MantisBT core
         ob_start();
         echo '&#160;';
@@ -50,6 +55,12 @@ class RelatedIssuesExportPlugin extends MantisPlugin {
         ob_end_clean();
         
         return $link;
+    }
+    
+    function config() {
+        return array(
+            'export_access_level_threshold' => DEVELOPER
+        );
     }
 }
 ?>
