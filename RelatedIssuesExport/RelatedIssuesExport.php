@@ -59,7 +59,8 @@ class RelatedIssuesExportPlugin extends MantisPlugin {
     
     function config() {
         return array(
-            'export_access_level_threshold' => DEVELOPER
+            'export_access_level_threshold' => DEVELOPER,
+            'last_note_column_width' => 250
         );
     }
 }

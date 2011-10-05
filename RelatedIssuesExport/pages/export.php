@@ -25,6 +25,9 @@
 	require_once( 'excel_api.php' );
 
 	require( 'print_all_bug_options_inc.php' );
+	
+	const COLUMN_INDEX_LAST_NOTE_1 = 4;
+	const COLUMN_INDEX_LAST_NOTE_2 = 10;
 
 	function RIE_echo_child_cells( $p_child_bug_id , $p_relationship_type) {
 
@@ -88,6 +91,12 @@
 	header( 'Content-Disposition: attachment; filename="' . urlencode( file_clean_name( $t_export_title ) ) . '.xml"' ) ;
 
 	echo excel_get_header( $t_export_title , $t_styles );
+	// excel_get_header outputs one column, we get the 9 others
+	for ( $i = 0 ; $i < 9; $i++ ) {
+	    $index= $i + 2;
+	    $width = $index == COLUMN_INDEX_LAST_NOTE_1 || $index == COLUMN_INDEX_LAST_NOTE_2 ? plugin_config_get('last_note_column_width') : '80';
+	    echo "<Column ss:Index=\"".$index."\" ss:AutoFitWidth=\"0\" ss:Width=\"".$width."\"/>";
+	}
 
 	echo excel_get_start_row( $t_header_style->getId() );
 	echo excel_get_cell( excel_prepare_string( plugin_lang_get('source_item_id') ), 'String');
@@ -134,7 +143,7 @@
 				echo excel_get_cell( $t_row->id, 'Number', $t_merge_attr );
 				echo excel_get_cell( excel_prepare_string( get_enum_element( 'status', $t_row->status) ), 'String', $t_merge_attr );
 				echo excel_get_cell( $t_row->handler_id > 0 ? excel_prepare_string( user_get_name( $t_row->handler_id ) ) : '', 'String', $t_merge_attr);
-				echo excel_get_cell( excel_prepare_string( $t_latest_bugnote ), 'String', $t_merge_attr);
+				echo excel_get_cell( excel_prepare_string( $t_latest_bugnote ), 'String', $t_merge_attr );
 				
 				RIE_echo_child_cells( $t_first_relationship->dest_bug_id, $t_first_relationship->type);
 
